@@ -92,7 +92,7 @@ export function WaitlistForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="website-field"
+        hidden
         name="website"
         tabIndex={-1}
         type="text"
