@@ -4,6 +4,8 @@ import { useState } from "react";
 
 export function WaitlistForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   if (submitted) {
     return (
@@ -20,19 +22,55 @@ export function WaitlistForm() {
   return (
     <form
       className="waitlist-form"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        setSubmitted(true);
+        setError("");
+        setIsSubmitting(true);
+
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch("/api/waitlist", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formData.get("name"),
+              email: formData.get("email"),
+              businessType: formData.get("businessType"),
+              currentSystem: formData.get("currentSystem"),
+              setupInterest: formData.get("setupInterest"),
+              website: formData.get("website"),
+            }),
+          });
+
+          const result = (await response.json()) as { error?: string };
+
+          if (!response.ok) {
+            setError(result.error || "Could not submit your request.");
+            return;
+          }
+
+          setSubmitted(true);
+          form.reset();
+        } catch {
+          setError("Could not submit your request. Please try again.");
+        } finally {
+          setIsSubmitting(false);
+        }
       }}
     >
-      <input aria-label="Name" placeholder="Name" required />
-      <input aria-label="Email" placeholder="Email" required type="email" />
+      <input aria-label="Name" name="name" placeholder="Name" required />
+      <input aria-label="Email" name="email" placeholder="Email" required type="email" />
       <input
         aria-label="Business type"
+        name="businessType"
         placeholder="What kind of business do you run?"
         required
       />
-      <select aria-label="Current CRM or system" defaultValue="">
+      <select aria-label="Current CRM or system" defaultValue="" name="currentSystem" required>
         <option value="" disabled>
           Current CRM or system
         </option>
@@ -43,7 +81,7 @@ export function WaitlistForm() {
         <option>GoHighLevel</option>
         <option>Other CRM</option>
       </select>
-      <select aria-label="Setup interest" defaultValue="">
+      <select aria-label="Setup interest" defaultValue="" name="setupInterest" required>
         <option value="" disabled>
           Setup interest
         </option>
@@ -51,7 +89,18 @@ export function WaitlistForm() {
         <option>I may want FlowBridge setup help</option>
         <option>I am not sure yet</option>
       </select>
-      <button type="submit">Request access</button>
+      <input
+        aria-hidden="true"
+        autoComplete="off"
+        className="website-field"
+        name="website"
+        tabIndex={-1}
+        type="text"
+      />
+      {error ? <p className="form-error">{error}</p> : null}
+      <button disabled={isSubmitting} type="submit">
+        {isSubmitting ? "Requesting access..." : "Request access"}
+      </button>
     </form>
   );
 }

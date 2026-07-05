@@ -19,6 +19,9 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 - [x] Build first waitlist/product preview page.
 - [x] Broaden public waitlist form so it does not expose only the three internal launch occupations.
 - [x] Add temporary request-access confirmation state.
+- [x] Add Supabase waitlist migration.
+- [x] Add waitlist API route.
+- [x] Wire waitlist form to backend API.
 - [x] Verify initial page in browser.
 - [ ] Push initial scaffold to GitHub.
 
@@ -31,8 +34,10 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 - [ ] Implement template preview.
 - [ ] Implement setup mode selection: self-setup or FlowBridge setup.
 - [ ] Store setup requests.
-- [ ] Store waitlist submissions.
-- [ ] Send waitlist confirmation email.
+- [x] Store waitlist submissions.
+- [x] Add optional waitlist confirmation email through Resend.
+- [ ] Configure Supabase environment variables in Vercel.
+- [ ] Configure Resend environment variables in Vercel.
 
 ## Phase 3: CRM Core
 
