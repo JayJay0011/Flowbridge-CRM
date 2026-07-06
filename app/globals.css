@@ -22,6 +22,12 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -46,9 +52,14 @@ select {
   font: inherit;
 }
 
+img,
+svg {
+  max-width: 100%;
+}
+
 .site-shell {
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .nav {
@@ -186,6 +197,7 @@ select {
   display: grid;
   grid-template-columns: 142px minmax(0, 1fr);
   min-height: 640px;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -225,6 +237,7 @@ select {
 .app-content {
   background: #f8fbff;
   color: var(--slate-950);
+  min-width: 0;
   padding: 24px;
 }
 
@@ -314,6 +327,7 @@ select {
   grid-template-columns: repeat(4, minmax(150px, 1fr));
   overflow-x: auto;
   padding-bottom: 8px;
+  scrollbar-color: #c3d2df transparent;
 }
 
 .pipeline-column {
@@ -559,8 +573,10 @@ select {
   border: 0;
   border-radius: 8px;
   color: var(--slate-950);
+  min-width: 0;
   min-height: 48px;
   padding: 0 14px;
+  width: 100%;
 }
 
 .waitlist-form button {
@@ -608,6 +624,7 @@ select {
 @media (max-width: 1180px) {
   .hero {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .product-preview {
@@ -617,22 +634,21 @@ select {
 
 @media (max-width: 860px) {
   .nav {
-    align-items: flex-start;
-    gap: 18px;
-  }
-
-  .nav,
-  .nav-links {
-    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
   .nav-links {
-    align-items: flex-start;
-    gap: 14px;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
   }
 
   .product-preview {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .app-sidebar {
@@ -648,32 +664,89 @@ select {
   }
 
   .pipeline-board {
-    grid-template-columns: repeat(4, 220px);
+    grid-template-columns: repeat(4, minmax(190px, 230px));
+    margin-right: -16px;
+    padding-right: 16px;
   }
 }
 
 @media (max-width: 560px) {
+  .nav {
+    padding: 16px 18px;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .brand-mark {
+    height: 32px;
+    width: 32px;
+  }
+
+  .nav-links {
+    flex: 0 0 auto;
+    gap: 0;
+    margin-left: auto;
+  }
+
+  .nav-links a:not(.nav-action) {
+    display: none;
+  }
+
+  .nav-action {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
   .hero {
-    padding-top: 46px;
+    gap: 34px;
+    padding: 44px 18px 40px;
   }
 
   .hero h1 {
-    font-size: 40px;
-    line-height: 1.02;
+    font-size: clamp(34px, 11vw, 42px);
+    line-height: 1.04;
   }
 
   .hero-copy p {
     font-size: 16px;
+    line-height: 1.55;
+    margin-top: 18px;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .trust-row {
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .trust-row span {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 
   .product-preview {
     border-radius: 16px;
-    margin-left: -6px;
-    margin-right: -6px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 
   .app-content {
-    padding: 16px;
+    padding: 14px;
   }
 
   .app-topbar {
@@ -682,7 +755,105 @@ select {
     gap: 12px;
   }
 
+  .app-label {
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .app-topbar h2 {
+    font-size: 21px;
+  }
+
+  .small-button {
+    width: 100%;
+  }
+
   .metric-grid {
     gap: 10px;
+  }
+
+  .metric-card {
+    padding: 13px;
+  }
+
+  .metric-card strong {
+    font-size: 24px;
+  }
+
+  .preview-body {
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .pipeline-board {
+    display: flex;
+    gap: 10px;
+    grid-template-columns: none;
+    margin-left: -2px;
+    margin-right: -14px;
+    overflow-x: auto;
+    padding: 2px 14px 10px 2px;
+    scroll-snap-type: x proximity;
+  }
+
+  .pipeline-column {
+    flex: 0 0 205px;
+    min-height: 270px;
+    min-width: 0;
+    padding: 10px;
+    scroll-snap-align: start;
+  }
+
+  .setup-panel {
+    padding: 16px;
+  }
+
+  .template-section,
+  .setup-section,
+  .waitlist {
+    padding: 58px 18px;
+  }
+
+  .section-heading {
+    margin-bottom: 26px;
+    text-align: left;
+  }
+
+  .section-heading h2,
+  .waitlist h2 {
+    font-size: clamp(30px, 9vw, 38px);
+    line-height: 1.08;
+  }
+
+  .section-heading p,
+  .waitlist p {
+    font-size: 16px;
+  }
+
+  .template-card,
+  .setup-mode {
+    padding: 20px;
+  }
+
+  .waitlist {
+    gap: 24px;
+  }
+
+  .waitlist-form {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 33px;
+  }
+
+  .pipeline-column {
+    flex-basis: 190px;
+  }
+
+  .deal-card {
+    padding: 10px;
   }
 }
