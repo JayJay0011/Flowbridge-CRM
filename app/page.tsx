@@ -40,6 +40,7 @@ export default function Home() {
           <a href="#templates">Templates</a>
           <a href="#product">Product</a>
           <a href="#setup">Setup service</a>
+          <a href="/sign-in">Sign in</a>
           <a className="nav-action" href="#waitlist">
             Join waitlist
           </a>

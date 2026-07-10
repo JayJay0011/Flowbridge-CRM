@@ -23,16 +23,16 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 - [x] Add waitlist API route.
 - [x] Wire waitlist form to backend API.
 - [x] Verify initial page in browser.
-- [ ] Push initial scaffold to GitHub.
+- [x] Push initial scaffold to GitHub.
 
 ## Phase 2: App Shell And Onboarding
 
-- [ ] Add Supabase project configuration.
-- [ ] Implement auth pages.
+- [x] Add Supabase project configuration.
+- [x] Implement auth pages.
 - [ ] Implement workspace creation.
-- [ ] Implement occupation selection.
-- [ ] Implement template preview.
-- [ ] Implement setup mode selection: self-setup or FlowBridge setup.
+- [x] Implement occupation selection.
+- [x] Implement template preview.
+- [x] Implement setup mode selection: self-setup or FlowBridge setup.
 - [ ] Store setup requests.
 - [x] Store waitlist submissions.
 - [x] Add optional waitlist confirmation email through Resend.
