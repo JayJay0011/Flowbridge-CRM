@@ -18,6 +18,20 @@ export default function AuthCallbackPage() {
         return;
       }
 
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const next = params.get("next") || "/onboarding";
+
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (error) {
+          setHasError(true);
+          setMessage("We could not confirm your email. Please sign in again.");
+          return;
+        }
+      }
+
       const { data, error } = await supabase.auth.getSession();
 
       if (error || !data.session) {
@@ -25,9 +39,6 @@ export default function AuthCallbackPage() {
         setMessage("We could not confirm your session. Please sign in again.");
         return;
       }
-
-      const params = new URLSearchParams(window.location.search);
-      const next = params.get("next") || "/onboarding";
 
       window.location.replace(next.startsWith("/") ? next : "/onboarding");
     };
