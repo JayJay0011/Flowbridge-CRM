@@ -44,7 +44,8 @@ export function AuthForm({ mode }: AuthFormProps) {
           return;
         }
 
-        const redirectTo = `${window.location.origin}/onboarding`;
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+        const redirectTo = `${appUrl.replace(/\/$/, "")}/auth/callback?next=/onboarding`;
 
         const result = isSignUp
           ? await supabase.auth.signUp({
@@ -71,7 +72,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         }
 
         if (isSignUp) {
-          setStatus("Account created. Check your email if confirmation is enabled.");
+          setStatus("Account created. Check your email to confirm your account.");
           setIsSubmitting(false);
           return;
         }

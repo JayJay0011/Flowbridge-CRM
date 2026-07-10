@@ -1059,6 +1059,10 @@ svg {
   font-weight: 900;
 }
 
+.auth-full-link {
+  width: 100%;
+}
+
 .app-setup-shell {
   display: grid;
   gap: 28px;
