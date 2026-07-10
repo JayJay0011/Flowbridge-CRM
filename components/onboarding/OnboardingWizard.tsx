@@ -3,11 +3,15 @@
 import { useMemo, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { occupationTemplates, setupModes } from "@/data/templates";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 export function OnboardingWizard() {
   const [workspaceName, setWorkspaceName] = useState("");
   const [selectedTemplateId, setSelectedTemplateId] = useState(occupationTemplates[0]?.id ?? "");
   const [selectedSetupMode, setSelectedSetupMode] = useState(setupModes[0]?.title ?? "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
 
   const selectedTemplate = useMemo(
     () => occupationTemplates.find((template) => template.id === selectedTemplateId),
@@ -32,10 +36,73 @@ export function OnboardingWizard() {
           />
         </label>
         <div className="onboarding-actions">
-          <button type="button">
-            Continue setup <ArrowRight size={17} />
+          <button
+            disabled={isSubmitting}
+            onClick={async () => {
+              setError("");
+              setStatus("");
+              setIsSubmitting(true);
+
+              const supabase = getSupabaseBrowserClient();
+
+              if (!supabase) {
+                setError("Supabase auth is not configured yet.");
+                setIsSubmitting(false);
+                return;
+              }
+
+              const { data } = await supabase.auth.getSession();
+              const token = data.session?.access_token;
+
+              if (!token) {
+                setError("Please sign in before creating a workspace.");
+                setIsSubmitting(false);
+                return;
+              }
+
+              try {
+                const response = await fetch("/api/onboarding", {
+                  method: "POST",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    workspaceName,
+                    occupationTemplateId: selectedTemplateId,
+                    setupMode: selectedSetupMode,
+                  }),
+                });
+
+                const result = (await response.json()) as {
+                  error?: string;
+                  workspaceName?: string;
+                  setupRequestId?: string | null;
+                };
+
+                if (!response.ok) {
+                  setError(result.error || "Could not create workspace.");
+                  return;
+                }
+
+                setStatus(
+                  result.setupRequestId
+                    ? `${result.workspaceName} is created and FlowBridge setup has been requested.`
+                    : `${result.workspaceName} is created. You can start customizing your CRM.`,
+                );
+              } catch {
+                setError("Could not create workspace. Please try again.");
+              } finally {
+                setIsSubmitting(false);
+              }
+            }}
+            type="button"
+          >
+            {isSubmitting ? "Creating workspace..." : "Continue setup"} <ArrowRight size={17} />
           </button>
         </div>
+        {error ? <p className="auth-error onboarding-message">{error}</p> : null}
+        {status ? <p className="auth-status onboarding-message">{status}</p> : null}
       </section>
 
       <section className="onboarding-panel">

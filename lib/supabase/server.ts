@@ -7,7 +7,7 @@ export function getSupabaseAdmin() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Supabase waitlist environment variables are not configured.");
+    throw new Error("Supabase server environment variables are not configured.");
   }
 
   if (!supabaseAdmin) {

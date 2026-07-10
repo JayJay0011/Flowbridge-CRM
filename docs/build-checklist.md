@@ -29,11 +29,11 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 
 - [x] Add Supabase project configuration.
 - [x] Implement auth pages.
-- [ ] Implement workspace creation.
+- [x] Implement workspace creation.
 - [x] Implement occupation selection.
 - [x] Implement template preview.
 - [x] Implement setup mode selection: self-setup or FlowBridge setup.
-- [ ] Store setup requests.
+- [x] Store setup requests.
 - [x] Store waitlist submissions.
 - [x] Add optional waitlist confirmation email through Resend.
 - [ ] Configure Supabase environment variables in Vercel.

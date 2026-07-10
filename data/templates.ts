@@ -6,9 +6,10 @@ import {
   Sparkles,
   Stethoscope,
 } from "lucide-react";
+import { occupationTemplateIds, setupModeTitles, type OccupationTemplateId, type SetupModeTitle } from "./template-config";
 
 export type OccupationTemplate = {
-  id: string;
+  id: OccupationTemplateId;
   name: string;
   icon: LucideIcon;
   summary: string;
@@ -20,7 +21,7 @@ export type OccupationTemplate = {
 
 export const occupationTemplates: OccupationTemplate[] = [
   {
-    id: "medspa-clinic",
+    id: occupationTemplateIds[0],
     name: "MedSpa / Clinic",
     icon: Stethoscope,
     summary:
@@ -38,7 +39,7 @@ export const occupationTemplates: OccupationTemplate[] = [
     metric: "Consults due this week",
   },
   {
-    id: "real-estate",
+    id: occupationTemplateIds[1],
     name: "Real Estate",
     icon: Home,
     summary:
@@ -56,7 +57,7 @@ export const occupationTemplates: OccupationTemplate[] = [
     metric: "Active buyer/seller opportunities",
   },
   {
-    id: "home-services",
+    id: occupationTemplateIds[2],
     name: "Home Services",
     icon: Building2,
     summary:
@@ -75,15 +76,21 @@ export const occupationTemplates: OccupationTemplate[] = [
   },
 ];
 
-export const setupModes = [
+export type SetupMode = {
+  title: SetupModeTitle;
+  icon: LucideIcon;
+  description: string;
+};
+
+export const setupModes: SetupMode[] = [
   {
-    title: "Set it up myself",
+    title: setupModeTitles[0],
     icon: ClipboardCheck,
     description:
       "Start with the prepared FlowBridge template and customize your pipeline as you go.",
   },
   {
-    title: "Have FlowBridge set this up",
+    title: setupModeTitles[1],
     icon: Sparkles,
     description:
       "Send your setup request to FlowBridge Digital for structure, imports, and workflow configuration.",
