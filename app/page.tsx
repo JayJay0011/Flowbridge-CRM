@@ -1,135 +1,166 @@
-import { ArrowRight, Bell, KanbanSquare, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  Bell,
+  CalendarClock,
+  CheckCircle2,
+  ChevronDown,
+  KanbanSquare,
+  LayoutDashboard,
+  Plus,
+  Settings,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
-import { WaitlistForm } from "@/components/WaitlistForm";
+import { previewPipeline } from "@/lib/pipeline";
 
-const waitlistSignals = [
-  {
-    title: "Occupation-ready setup",
-    description:
-      "FlowBridge CRM is being shaped around real sales workflows, not a blank generic CRM screen.",
-  },
-  {
-    title: "Pipeline-first workspace",
-    description:
-      "The first product build is focused on leads, opportunities, follow-ups, tasks, and setup clarity.",
-  },
-  {
-    title: "Optional setup help",
-    description:
-      "Early users will be able to request FlowBridge Digital setup support during onboarding.",
-  },
+const dashboardMetrics = [
+  { label: "Open pipeline", value: "$84k", note: "Across 17 opportunities" },
+  { label: "Follow-ups due", value: "9", note: "4 high priority today" },
+  { label: "New leads", value: "28", note: "+14% this week" },
+  { label: "Setup progress", value: "62%", note: "Template review active" },
+];
+
+const setupSteps = [
+  "Confirm occupation template",
+  "Review prepared pipeline",
+  "Add first contact",
+  "Create first follow-up task",
+];
+
+const taskList = [
+  { title: "Call Avery Stone", detail: "Consultation inquiry", due: "Today" },
+  { title: "Prepare buyer next steps", detail: "Nina Patel", due: "Tomorrow" },
+  { title: "Send quote follow-up", detail: "Morgan Lee", due: "Friday" },
 ];
 
 export default function Home() {
   return (
-    <main className="site-shell">
-      <nav className="nav">
-        <a className="brand" href="#">
+    <main className="crm-review-shell">
+      <aside className="crm-sidebar">
+        <a className="crm-brand" href="/">
           <span className="brand-mark">
             <Image src="/icon.png" alt="" width={28} height={28} priority />
           </span>
           <span>FlowBridge CRM</span>
         </a>
-        <div className="nav-links" aria-label="Main navigation">
-          <a href="#direction">Direction</a>
-          <a href="#setup">Setup service</a>
-          <a className="nav-action" href="#waitlist">
-            Join waitlist
+        <nav className="crm-nav" aria-label="CRM navigation">
+          <a className="active" href="/">
+            <LayoutDashboard size={18} /> Dashboard
           </a>
+          <a href="#pipeline">
+            <KanbanSquare size={18} /> Pipeline
+          </a>
+          <a href="#contacts">
+            <Users size={18} /> Contacts
+          </a>
+          <a href="#tasks">
+            <CalendarClock size={18} /> Tasks
+          </a>
+          <a href="/onboarding">
+            <Settings size={18} /> Setup
+          </a>
+        </nav>
+        <div className="crm-sidebar-note">
+          <span>Review mode</span>
+          <p>Vercel root is showing the CRM build. Waitlist remains available at `/waitlist`.</p>
         </div>
-      </nav>
+      </aside>
 
-      <section className="hero waitlist-hero">
-        <div className="hero-copy">
-          <span className="section-kicker">Private beta waitlist</span>
-          <h1>FlowBridge CRM is being built for businesses that need a better sales system.</h1>
-          <p>
-            Join early access for an occupation-adaptive CRM from FlowBridge. We
-            are shaping the first release around lead capture, pipelines,
-            follow-ups, and guided setup.
-          </p>
-          <div className="hero-actions">
-            <a className="primary-button" href="#waitlist">
-              Request early access <ArrowRight size={18} />
+      <section className="crm-main">
+        <header className="crm-header">
+          <div>
+            <span className="section-kicker">MedSpa / Clinic workspace</span>
+            <h1>Business pipeline</h1>
+          </div>
+          <div className="crm-header-actions">
+            <a className="secondary-button crm-link" href="/waitlist">
+              Waitlist page
             </a>
+            <button className="primary-button crm-button" type="button">
+              <Plus size={18} /> New opportunity
+            </button>
           </div>
-          <div className="trust-row" aria-label="Product principles">
-            <span>
-              <ShieldCheck size={16} /> Occupation-ready
-            </span>
-            <span>
-              <KanbanSquare size={16} /> Pipeline-first
-            </span>
-            <span>
-              <Bell size={16} /> Follow-up focused
-            </span>
-          </div>
-        </div>
+        </header>
 
-        <div className="waitlist-card" id="waitlist">
-          <span className="section-kicker">Early access</span>
-          <h2>Request access</h2>
-          <p>
-            Tell us what kind of business you run and what you use today. We
-            will use that signal to prioritize private beta invites and setup
-            support.
-          </p>
-          <WaitlistForm />
-        </div>
-      </section>
-
-      <section className="template-section" id="direction">
-        <div className="section-heading">
-          <span className="section-kicker">Product direction</span>
-          <h2>The public page is the waitlist. The CRM app stays private while we build.</h2>
-          <p>
-            FlowBridge CRM will launch as a serious SaaS product, not as a
-            public construction site. Early visitors only see the waitlist and
-            product direction. The app routes stay separate until the product is
-            ready for beta users.
-          </p>
-        </div>
-        <div className="template-grid">
-          {waitlistSignals.map((signal) => (
-            <article className="template-card" key={signal.title}>
-              <div className="template-icon">
-                <Sparkles size={22} />
-              </div>
-              <h3>{signal.title}</h3>
-              <p>{signal.description}</p>
+        <section className="crm-metric-grid" aria-label="Dashboard metrics">
+          {dashboardMetrics.map((metric) => (
+            <article className="crm-metric-card" key={metric.label}>
+              <span>{metric.label}</span>
+              <strong>{metric.value}</strong>
+              <small>{metric.note}</small>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
 
-      <section className="setup-section" id="setup">
-        <div className="section-heading align-left">
-          <span className="section-kicker">Native setup path</span>
-          <h2>Self-serve CRM setup, with FlowBridge support when needed.</h2>
-          <p>
-            The optional setup service will live inside product onboarding for
-            invited users. Public visitors should not need to enter the app just
-            to understand the offer.
-          </p>
-        </div>
-        <div className="setup-mode-grid">
-          <article className="setup-mode">
-            <KanbanSquare size={24} />
-            <h3>Build it yourself</h3>
-            <p>
-              Start from a prepared CRM foundation and customize your pipeline,
-              fields, and follow-up workflow.
-            </p>
-          </article>
-          <article className="setup-mode">
-            <Sparkles size={24} />
-            <h3>Request FlowBridge setup</h3>
-            <p>
-              Ask FlowBridge Digital to help configure the workspace, imports,
-              and starting workflow once you are invited.
-            </p>
-          </article>
-        </div>
+        <section className="crm-work-grid">
+          <div className="crm-panel crm-pipeline-panel" id="pipeline">
+            <div className="crm-panel-header">
+              <div>
+                <span className="section-kicker">Pipeline</span>
+                <h2>Opportunities by stage</h2>
+              </div>
+              <button className="crm-filter-button" type="button">
+                This week <ChevronDown size={16} />
+              </button>
+            </div>
+            <div className="crm-kanban">
+              {previewPipeline.map((column) => (
+                <section className="crm-kanban-column" key={column.id}>
+                  <header>
+                    <span>{column.title}</span>
+                    <small>{column.cards.length}</small>
+                  </header>
+                  {column.cards.map((card) => (
+                    <article className="crm-deal-card" key={card.id}>
+                      <strong>{card.title}</strong>
+                      <span>{card.contact}</span>
+                      <div>
+                        <small>{card.value}</small>
+                        <small>{card.due}</small>
+                      </div>
+                    </article>
+                  ))}
+                </section>
+              ))}
+            </div>
+          </div>
+
+          <aside className="crm-panel crm-right-rail">
+            <section>
+              <div className="crm-panel-header compact">
+                <div>
+                  <span className="section-kicker">Setup assistant</span>
+                  <h2>Foundation</h2>
+                </div>
+              </div>
+              <ul className="crm-checklist">
+                {setupSteps.map((step) => (
+                  <li key={step}>
+                    <CheckCircle2 size={16} /> {step}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section id="tasks">
+              <div className="crm-panel-header compact">
+                <div>
+                  <span className="section-kicker">Follow-ups</span>
+                  <h2>Due next</h2>
+                </div>
+                <Bell size={18} />
+              </div>
+              <div className="crm-task-list">
+                {taskList.map((task) => (
+                  <article className="crm-task" key={task.title}>
+                    <strong>{task.title}</strong>
+                    <span>{task.detail}</span>
+                    <small>{task.due}</small>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </aside>
+        </section>
       </section>
     </main>
   );
