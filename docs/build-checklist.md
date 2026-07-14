@@ -9,6 +9,7 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 - [x] MedSpa/Clinic language stays focused on leads, consultations, appointments, follow-ups, and business pipeline management.
 - [x] FlowBridge setup service is a native onboarding path.
 - [x] Keep MVP strict: CRM foundation before automation, AI, SMS, or advanced reporting.
+- [x] Public domain stays as waitlist/positioning until launch; CRM build routes stay separate.
 
 ## Phase 1: Product Foundation
 
@@ -17,6 +18,7 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 - [x] Add initial product blueprint/specification.
 - [x] Add FlowBridge Digital brand icon as product favicon and app mark.
 - [x] Build first waitlist/product preview page.
+- [x] Refocus public home page as waitlist-only, not an in-progress CRM preview.
 - [x] Broaden public waitlist form so it does not expose only the three internal launch occupations.
 - [x] Add temporary request-access confirmation state.
 - [x] Add Supabase waitlist migration.
@@ -80,4 +82,4 @@ This document is the implementation tracker for FlowBridge CRM. Keep it updated 
 
 ## Current Status
 
-Current build target: initial Next.js SaaS landing/product preview with strict FlowBridge CRM positioning.
+Current build target: keep public waitlist live while building protected CRM foundation behind app/auth routes.
